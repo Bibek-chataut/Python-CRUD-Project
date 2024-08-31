@@ -130,11 +130,11 @@ COLUMNS= (
 )   
 
 def  update_users_by_id(con,user_id,column_name,column_value):
-    update_query = f"UPDATE users set{column_name}=?;"
+    update_query = f"UPDATE users set {column_name}=? where id =?;"
     cur=con.cursor()
-    cur.execute(update_query,"UPDATE FROM users where id=?",(user_id))
+    cur.execute(update_query,(column_value,user_id))
     con.commit()
-    print("Data has been updated.")
+    print(f"[{column_name}] was updated with value [{column_name}] of user with id [{user_id}]")
  
 def main():
     con = create_connection()
@@ -173,7 +173,7 @@ def main():
     elif user_input == "9":
         user_id =input("Enter id for user: ")
         if user_id.isnumeric():
-            column_name=input(f"Enter the column you want to edit:Please make sure column is with in {COLUMNS}")
+            column_name=input(f"Enter the column you want to edit.Please make sure column is with in {COLUMNS}")
         if column_name in COLUMNS:
             column_value =input(f"Enter the value of {column_value}: ")
             update_users_by_id(con,user_id,column_name,column_value)
